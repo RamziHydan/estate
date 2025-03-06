@@ -1,0 +1,19 @@
+<odoo>
+    <record id="estate_property_search" model="ir.ui.view" >
+        <field name="name">estate.property.search</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+        <search string="estate">
+            <field name="name"/>
+            <field name="bedrooms"/>
+            <field name="living_area"/>
+            <separator/>
+            <filter string="Active" name="active" domain="[('active','=',True)]" />
+            <separator/>
+            <group expand="1" string="Group By" >
+                <filter string="State" name="state" context="{'group_by':'state'}" />
+            </group>
+        </search>
+        </field>
+    </record>
+</odoo>
