@@ -8,7 +8,8 @@ class EstateProperty(models.Model):
 
     # Basic fields added as per requirement
     name = fields.Char(string="Name", required=True, default="Unknown")  # Char field for property name
-    property_type_id = fields.Many2one("estate.property.type",string="Property Type")
+    tag_ids = fields.Many2many('estate.property.tag',string='Property Tag')
+    property_type_id = fields.Many2one("estate.property.type",string="Property Type",)
     description = fields.Text(string="Description")  # Text field for detailed description
     postcode = fields.Char(string="Postcode")  # Char field for postal code
     date_availability = fields.Date(string="Date Available", copy=False, default=today())  # Date field for availability

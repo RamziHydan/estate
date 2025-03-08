@@ -25,7 +25,9 @@
                 <sheet>
                     <group>
                         <h1><field name="name" string="Title"/></h1>
+
                     </group>
+                    <field name="tag_ids" widget="many2many_tags" />
                     <group>
                         <field name="property_type_id"/>
                         <field name="postcode"/>

@@ -1,4 +1,6 @@
 <odoo>
+
+
     <!--Estate Property Menu Items -->
     <menuitem id="menu_estate_root" name="Real Estate" sequence="10"/>
     <menuitem id="menu_estate_advertisements" name="Advertisements" parent="menu_estate_root" sequence="1"/>
@@ -7,4 +9,8 @@
     <!--Estate Property Type Menu Items -->
     <menuitem id="menu_estate_settings" name="Settings" parent="menu_estate_root" sequence="3"/>
     <menuitem id="menu_estate_property_type" parent="menu_estate_settings" action="action_estate_property_type" sequence="4"/>
+
+    <!--Estate Property Tag Menu Items -->
+    <menuitem id="menu_estate_property_tag" parent="menu_estate_settings" action="action_estate_property_tag" sequence="5"/>
+
 </odoo>
