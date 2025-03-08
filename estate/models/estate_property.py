@@ -8,10 +8,10 @@ class EstateProperty(models.Model):
 
     # Basic fields added as per requirement
     name = fields.Char(string="Name", required=True, default="Unknown")  # Char field for property name
-    type_id = fields.Many2one("estate.property.type",string="Property Type")
+    property_type_id = fields.Many2one("estate.property.type",string="Property Type")
     description = fields.Text(string="Description")  # Text field for detailed description
     postcode = fields.Char(string="Postcode")  # Char field for postal code
-    date_availability = fields.Date(string="Date Available", copy=False, default=today() )  # Date field for availability
+    date_availability = fields.Date(string="Date Available", copy=False, default=today())  # Date field for availability
     expected_price = fields.Float(string="Expected Price", required=True)  # Float field for expected price
     selling_price = fields.Float(string="Selling Price", readonly=True)  # Float field for selling price
     bedrooms = fields.Integer(string="Bedrooms", default=2)  # Integer field for number of bedrooms
@@ -31,13 +31,19 @@ class EstateProperty(models.Model):
     )  # Selection field with 4 possible values for garden orientation
     state = fields.Selection(
         selection=[
-            ('new','New'),
+            ('new', 'New'),
             ('offer received', 'Offer Received'),
             ('offer accepted', 'Offer Accepted'),
             ('offer canceled', 'Offer Canceled'),
             ('sold out', 'Sold Out')
         ],
-        string = "State",
-        default = "new"
+        string="State",
+        default="new"
     )
+    salesperson_id = fields.Many2one(
+        'res.users', string='Salesperson', default=lambda self: self.env.uid,
+        help = "Salesperson responsible for the property. Defaults to the current user.")
+    buyer_id = fields.Many2one(
+        'res.partner', string='Buyer', copy=False,
+        help="Buyer of the property. This field will not be duplicated.")
     active = fields.Boolean(string="Active", default=True)
