@@ -47,4 +47,5 @@ class EstateProperty(models.Model):
     buyer_id = fields.Many2one(
         'res.partner', string='Buyer', copy=False,
         help="Buyer of the property. This field will not be duplicated.")
+    offer_ids = fields.One2many('estate.property.offer','property_id')
     active = fields.Boolean(string="Active", default=True)
