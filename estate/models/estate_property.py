@@ -1,6 +1,6 @@
 from dateutil.utils import today
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -21,6 +21,7 @@ class EstateProperty(models.Model):
     garage = fields.Boolean(string="Garage")  # Boolean field indicating garage presence
     garden = fields.Boolean(string="Garden")  # Boolean field indicating garden availability
     garden_area = fields.Integer(string="Garden Area")  # Integer field for garden area size
+    total_area = fields.Integer(compute='_compute_total')
     garden_orientation = fields.Selection(
         selection=[
             ('North', 'North'),
@@ -49,3 +50,8 @@ class EstateProperty(models.Model):
         help="Buyer of the property. This field will not be duplicated.")
     offer_ids = fields.One2many('estate.property.offer','property_id')
     active = fields.Boolean(string="Active", default=True)
+
+    @api.depends('living_area','garden_area')
+    def _compute_total(self):
+        for record in self:
+            record.total_area = record.living_area + record.garden_area
