@@ -49,9 +49,18 @@ class EstateProperty(models.Model):
         'res.partner', string='Buyer', copy=False,
         help="Buyer of the property. This field will not be duplicated.")
     offer_ids = fields.One2many('estate.property.offer','property_id')
+    best_price = fields.Integer(compute='_compute_highest')
     active = fields.Boolean(string="Active", default=True)
 
-    @api.depends('living_area','garden_area')
+    @api.depends('living_area', 'garden_area')
     def _compute_total(self):
         for record in self:
             record.total_area = record.living_area + record.garden_area
+
+    @api.depends('offer_ids.price')
+    def _compute_highest(self):
+        for rec in self:
+            # Map the prices from offer_ids into a list
+            prices = rec.offer_ids.mapped('price')
+            # If there are any prices, set best_price to the maximum; otherwise, use 0.0 or False as needed
+            rec.best_price = max(prices) if prices else 0.0
