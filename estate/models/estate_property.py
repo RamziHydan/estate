@@ -1,6 +1,6 @@
 from dateutil.utils import today
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -64,3 +64,18 @@ class EstateProperty(models.Model):
             prices = rec.offer_ids.mapped('price')
             # If there are any prices, set best_price to the maximum; otherwise, use 0.0 or False as needed
             rec.best_price = max(prices) if prices else 0.0
+
+    @api.onchange("garden")
+    def onchange_check_area_orientation(self):
+        if self.garden:
+            self.garden_area = 10
+            self.garden_orientation = 'North'
+            return {'warning': {
+                'title': _("Important ❗"),
+                'message': ('By ckecking garden default values has been set to area and orientation as 10 and North in order')}}
+        else :
+            self.garden_area = 0
+            self.garden_orientation = False
+            return {'warning': {
+                'title': _("Important ❗"),
+                'message': ('By unckecking garden current values has been removed from to area and orientation')}}

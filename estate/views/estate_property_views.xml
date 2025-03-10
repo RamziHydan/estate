@@ -45,8 +45,6 @@
                             <group>
                              <field name="description"/>
                             <group>
-                                <field name="garden_area"/>
-                                <field name="garden_orientation"/>
                                 <field name="state"/>
                                 <field name="active"/>
                             </group>
@@ -58,6 +56,8 @@
                             <group>
                                 <field name="garage"/>
                                 <field name="garden"/>
+                                <field name="garden_area"/>
+                                <field name="garden_orientation"/>
                                 <field name="total_area"/>
                             </group>
                             </group>
