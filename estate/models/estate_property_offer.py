@@ -1,5 +1,6 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import timedelta
+from odoo.exceptions import UserError
 
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
@@ -59,3 +60,13 @@ class EstatePropertyOffer(models.Model):
                 validity_days = (offer.date_deadline - create_date_date).days
                 # Ensure validity is not negative
                 offer.validity = validity_days if validity_days >= 0 else 0
+
+    def action_accepted(self):
+        for rec in self:
+            rec.status = 'accepted'
+            rec.property_id.buyer_id = rec.partner_id
+            rec.property_id.selling_price = rec.price
+
+    def action_refused(self):
+        for rec in self:
+            rec.status = 'refused'

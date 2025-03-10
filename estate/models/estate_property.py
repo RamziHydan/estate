@@ -1,5 +1,5 @@
 from dateutil.utils import today
-
+from odoo.exceptions import UserError
 from odoo import models, fields, api, _
 
 class EstateProperty(models.Model):
@@ -19,7 +19,7 @@ class EstateProperty(models.Model):
     living_area = fields.Integer(string="Living Area")  # Integer field for living area (in sqft/m²)
     facades = fields.Integer(string="Facades")  # Integer field for number of facades
     garage = fields.Boolean(string="Garage")  # Boolean field indicating garage presence
-    garden = fields.Boolean(string="Garden")  # Boolean field indicating garden availability
+    garden = fields.Boolean(string="Garden", defualt=True)  # Boolean field indicating garden availability
     garden_area = fields.Integer(string="Garden Area")  # Integer field for garden area size
     total_area = fields.Integer(compute='_compute_total')
     garden_orientation = fields.Selection(
@@ -70,12 +70,26 @@ class EstateProperty(models.Model):
         if self.garden:
             self.garden_area = 10
             self.garden_orientation = 'North'
-            return {'warning': {
-                'title': _("Important ❗"),
-                'message': ('By ckecking garden default values has been set to area and orientation as 10 and North in order')}}
-        else :
+            # return {'warning': {
+            #     'title': _("Important ❗"),
+            #     'message': ('By ckecking garden default values has been set to area and orientation as 10 and North in order')}}
+        else:
             self.garden_area = 0
             self.garden_orientation = False
-            return {'warning': {
-                'title': _("Important ❗"),
-                'message': ('By unckecking garden current values has been removed from to area and orientation')}}
+            # return {'warning': {
+            #     'title': _("Important ❗"),
+            #     'message': ('By unckecking garden current values has been removed from to area and orientation')}}
+
+    def action_cancel(self):
+        """Cancel the property if it is not already sold."""
+        for rec in self:
+            if rec.state == 'sold out':
+                raise UserError(_("A sold property cannot be cancelled."))
+            rec.state = 'offer canceled'
+
+    def action_sold(self):
+        """Mark the property as sold if it is not cancelled."""
+        for rec in self:
+            if rec.state == 'offer canceled':
+                raise UserError(_("A cancelled property cannot be sold."))
+            rec.state = 'sold out'
