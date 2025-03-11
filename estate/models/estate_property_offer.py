@@ -70,3 +70,4 @@ class EstatePropertyOffer(models.Model):
     def action_refused(self):
         for rec in self:
             rec.status = 'refused'
+
