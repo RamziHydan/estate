@@ -1,6 +1,6 @@
 from odoo import models, fields, api, _
 from datetime import timedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
@@ -71,3 +71,10 @@ class EstatePropertyOffer(models.Model):
         for rec in self:
             rec.status = 'refused'
 
+    @api.constrains('status', 'price')
+    def _check_offer_price_threshold(self):
+        for offer in self:
+            # Enforce only for accepted offers and when the property has an expected price defined
+            if offer.status == 'accepted' and offer.property_id.expected_price:
+                if offer.price < 0.9 * offer.property_id.expected_price:
+                    raise ValidationError(_("Accepted offer price must be at least 90% of the expected price."))

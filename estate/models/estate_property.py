@@ -114,3 +114,4 @@ class EstateProperty(models.Model):
             for offer in rec.offer_ids:
                 if offer.price <= 0:
                     raise UserError(_("Offer price must be positive."))
+
