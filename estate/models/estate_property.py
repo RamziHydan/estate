@@ -93,21 +93,21 @@ class EstateProperty(models.Model):
             if rec.state == 'offer canceled':
                 raise UserError(_("A cancelled property cannot be sold."))
             rec.state = 'sold out'
-    #
-    # _sql_constraints = [
-    #     ('CHECK_POSITIVE', 'CHECK(expected_price > 0 AND selling_price > 0 AND best_price > 0)', 'Value must be Positive')
-    # ]
 
-    @api.constrains('expected_price', 'selling_price', 'best_price')
-    def _check_price_positive(self):
-        for rec in self:
-            if rec.expected_price <= 0:
-                raise ValidationError(_("Expected Price must be positive."))
-            # selling_price is read-only, but if it is set, validate it
-            if rec.selling_price and rec.selling_price <= 0:
-                raise ValidationError(_("Selling Price must be positive."))
-            if rec.best_price and rec.best_price <= 0:
-                raise ValidationError(_("Best Price must be positive."))
+    _sql_constraints = [
+        ('CHECK_POSITIVE', 'CHECK(expected_price > 0 AND selling_price > 0 AND best_price > 0)', 'Value must be Positive')
+    ]
+
+    # @api.constrains('expected_price', 'selling_price', 'best_price')
+    # def _check_price_positive(self):
+    #     for rec in self:
+    #         if rec.expected_price <= 0:
+    #             raise ValidationError(_("Expected Price must be positive."))
+    #         # selling_price is read-only, but if it is set, validate it
+    #         if rec.selling_price and rec.selling_price <= 0:
+    #             raise ValidationError(_("Selling Price must be positive."))
+    #         if rec.best_price and rec.best_price <= 0:
+    #             raise ValidationError(_("Best Price must be positive."))
 
     def check_price(self):
         for rec in self:
