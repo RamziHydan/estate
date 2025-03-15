@@ -23,6 +23,7 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
             <header>
+                <field name="state" widget="statusbar" statusbar_visible="new, offer received, offer accepted, sold out"/>
                 <!-- The buttons are visible only when the property is in a state where these transitions are allowed -->
                 <button name="action_cancel" type="object" string="Cancel" state="new,offer received,offer accepted" class="oe_highlight"/>
                 <button name="action_sold" type="object" string="Sold" state="new,offer received,offer accepted" class="oe_highlight"/>
@@ -50,7 +51,7 @@
                             <group>
                              <field name="description"/>
                             <group>
-                                <field name="state"/>
+
                                 <field name="active"/>
                             </group>
                             <group>

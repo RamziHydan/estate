@@ -5,6 +5,7 @@ from odoo import models, fields, api, _
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real Estate Property'
+    _order = 'id desc'
 
     # Basic fields added as per requirement
     name = fields.Char(string="Name", required=True, default="Unknown")  # Char field for property name

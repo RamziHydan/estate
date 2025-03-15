@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
     _description = 'This model created for offers'
+    _order = 'price desc'
 
     price = fields.Float(string='Property Price')
     status = fields.Selection(

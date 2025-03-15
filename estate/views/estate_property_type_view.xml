@@ -21,7 +21,8 @@
                         <field name="name"/>
                     </group>
                     <group>
-                        <field name="property_ids" widget="one2many_list">
+                        <!-- Inline list view for the One2many field -->
+                        <field name="property_ids">
                             <list editable="bottom">
                                 <field name="name"/>
                                 <field name="expected_price"/>
@@ -33,6 +34,7 @@
             </form>
         </field>
     </record>
+
 
     <!--Action: Opens Estate Property Type model -->
     <record id="action_estate_property_type" model="ir.actions.act_window">
