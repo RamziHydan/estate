@@ -9,6 +9,7 @@ class EstateProperty(models.Model):
 
     # Basic fields added as per requirement
     name = fields.Char(string="Name", required=True, default="Unknown")  # Char field for property name
+    sequence = fields.Integer('Sequence', default=1, help="Used to order stages. Lower is better.")
     tag_ids = fields.Many2many('estate.property.tag',string='Property Tag')
     property_type_id = fields.Many2one("estate.property.type",string="Property Type",)
     description = fields.Text(string="Description")  # Text field for detailed description
