@@ -39,7 +39,7 @@ class EstateProperty(models.Model):
             ('offer received', 'Offer Received'),
             ('offer accepted', 'Offer Accepted'),
             ('offer canceled', 'Offer Canceled'),
-            ('sold out', 'Sold Out')
+            ('sold', 'Sold')
         ],
         string="State",
         default="new"
@@ -85,7 +85,7 @@ class EstateProperty(models.Model):
     def action_cancel(self):
         """Cancel the property if it is not already sold."""
         for rec in self:
-            if rec.state == 'sold out':
+            if rec.state == 'sold':
                 raise UserError(_("A sold property cannot be cancelled."))
             rec.state = 'offer canceled'
 
@@ -94,7 +94,7 @@ class EstateProperty(models.Model):
         for rec in self:
             if rec.state == 'offer canceled':
                 raise UserError(_("A cancelled property cannot be sold."))
-            rec.state = 'sold out'
+            rec.state = 'sold'
 
     _sql_constraints = [
         ('CHECK_POSITIVE', 'CHECK(expected_price > 0 AND selling_price > 0 AND best_price > 0)', 'Value must be Positive')

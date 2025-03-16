@@ -24,11 +24,13 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
             <header>
-                <field name="state" widget="statusbar" statusbar_visible="new, offer received, offer accepted, sold out"/>
-                <field name="sequence" widget="handle"/>
-                <!-- The buttons are visible only when the property is in a state where these transitions are allowed -->
-                <button name="action_cancel" type="object" string="Cancel" state="new,offer received,offer accepted" class="oe_highlight"/>
-                <button name="action_sold" type="object" string="Sold" state="new,offer received,offer accepted" class="oe_highlight"/>
+                <field name="state" widget="statusbar" statusbar_visible="new, offer received, offer accepted, sold"/>
+<button name="action_cancel" type="object" string="Cancel"
+            invisible="state not in ['new', 'offer received', 'offer accepted']"
+            class="oe_highlight"/>
+    <button name="action_sold" type="object" string="Sold"
+            invisible="state not in ['new', 'offer received', 'offer accepted']"
+            class="oe_highlight"/>
             </header>
                 <sheet>
                     <group>
@@ -36,9 +38,9 @@
                         <h1><field name="name" string="Title"/></h1>
 
                     </group>
-                    <field name="tag_ids" widget="many2many_tags" />
+                    <field name="tag_ids"  widget="many2many_tags" options="{'color_field': 'color'}" />
                     <group>
-                        <field name="property_type_id"/>
+                        <field name="property_type_id" options="{'no_create': True, 'no_create_edit': True}" />
                         <field name="postcode"/>
                         <field name="date_availability"/>
                     </group>
@@ -64,9 +66,9 @@
                             <group>
                                 <field name="garage"/>
                                 <field name="garden"/>
-                                <field name="garden_area"/>
-                                <field name="garden_orientation"/>
-                                <field name="total_area"/>
+                                <field name="garden_area" invisible="not garden"/>
+                                <field name="garden_orientation" invisible="not garden"/>
+                                <field name="total_area" />
                             </group>
                             </group>
                         </page>
@@ -84,9 +86,13 @@
                                     <field name="partner_id"/>
                                     <field name="validity"/>
                                     <field name="date_deadline"/>
-                                   <field name="status"/>
-                                   <button name="action_accepted" type="object" title="Accept Offer" icon="fa-check"/>
-                                   <button name="action_refused" type="object" title="Refuse Offer" icon="fa-times"/>
+                                    <field name="status"/>
+                                    <!-- Modification 2: Use invisible attribute (instead of attrs) to hide Accept and Refuse buttons once the offer status is set -->
+                                    <button name="action_accepted" type="object" title="Accept Offer" icon="fa-check"
+                                            invisible="status in ['accepted','refused']"/>
+                                    <button name="action_refused" type="object" title="Refuse Offer" icon="fa-times"
+                                            invisible="status in ['accepted','refused']"/>
+
                                 </list>
                                <form string="Offer">
                                     <sheet>

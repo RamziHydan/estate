@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" string="Property Tag"/>
+<!--                <field name="color"  widget="color" options="{'clickable': true}" />-->
             </list>
         </field>
     </record>
@@ -19,6 +20,7 @@
             <form>
                 <group>
                     <field name="name"/>
+<!--                    <field name="color"  widget="color" options="{'clickable': true}" />-->
                 </group>
             </form>
         </field>

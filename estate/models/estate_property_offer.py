@@ -67,6 +67,8 @@ class EstatePropertyOffer(models.Model):
             rec.status = 'accepted'
             rec.property_id.buyer_id = rec.partner_id
             rec.property_id.selling_price = rec.price
+            # Update the property state to 'offer accepted' so the statusbar reflects the change
+            rec.property_id.state = 'offer accepted'
 
     def action_refused(self):
         for rec in self:
