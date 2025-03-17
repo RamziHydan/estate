@@ -4,8 +4,9 @@
         <field name="name">estate.property.list</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <list>
+            <list editable="bottom" >
                 <field name="name" string="Title"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="sequence" widget="handle"/>
                 <field name="postcode"/>
                 <field name="bedrooms"/>
