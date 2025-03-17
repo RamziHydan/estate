@@ -1,10 +1,12 @@
 <odoo>
-    <!-- Tree View -->
-    <record id="view_estate_property_tree" model="ir.ui.view">
+    <!-- List View -->
+    <record id="view_estate_property_list" model="ir.ui.view">
         <field name="name">estate.property.list</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <list editable="bottom" >
+<list decoration-success="state in ('offer received', 'offer accepted')"
+      decoration-bf="state == 'offer accepted'"
+      decoration-muted="state == 'sold'">
                 <field name="name" string="Title"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="sequence" widget="handle"/>
@@ -82,7 +84,8 @@
                         <page string="Offers">
                             <field name="offer_ids">
                                 <!-- Use 'list' instead of 'tree' in Odoo 18 -->
-                               <list editable="bottom">
+                             <list editable="bottom" decoration-danger="status == 'refused'" decoration-success="status == 'accepted'">
+
                                     <field name="price"/>
                                     <field name="partner_id"/>
                                     <field name="validity"/>
